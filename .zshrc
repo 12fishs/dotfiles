@@ -9,3 +9,4 @@ zstyle ':vcs_info:git:*' formats '%F{red}%b%f '
 # set up the prompt (with git branch name)
 setopt PROMPT_SUBST
 PROMPT='${PWD/#$HOME/~} ${vcs_info_msg_0_}%% ' 
+export PATH="/Users/samuelfish/bin:/usr/local/opt/python@3.8/bin:$PATH"

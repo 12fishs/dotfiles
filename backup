@@ -1,0 +1,9 @@
+#!/bin/sh
+
+rsync -av /Users/samuelfish/ \
+--exclude='.Trash' \
+--exclude='Library' \
+--exclude='Downloads' \
+--exclude='Desktop' \
+--exclude='Public' \
+/Volumes/backup/samuelfish/
