@@ -21,7 +21,11 @@ Plug 'lepture/vim-jinja'
 Plug 'pangloss/vim-javascript'
 Plug 'alvan/vim-closetag'
 Plug 'maxmellon/vim-jsx-pretty'
+Plug 'lervag/vimtex'
 call plug#end()
+
+colorscheme onedark
+set textwidth=99
 
 filetype plugin indent on
 syntax on
@@ -59,6 +63,7 @@ autocmd FileType html setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType css setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2
 
+autocmd FileType tex setlocal tabstop=2 shiftwidth=2 softtabstop=2
 " word movement
 imap <S-Left> <Esc>bi
 nmap <S-Left> b
@@ -90,7 +95,6 @@ endfunction
 
 " color scheme
 syntax on
-colorscheme onedark
 filetype on
 filetype plugin indent on
 
@@ -191,3 +195,5 @@ function! XTermPasteBegin()
 endfunction
 
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+set mouse=a
