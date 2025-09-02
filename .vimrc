@@ -21,11 +21,10 @@ Plug 'lepture/vim-jinja'
 Plug 'pangloss/vim-javascript'
 Plug 'alvan/vim-closetag'
 Plug 'maxmellon/vim-jsx-pretty'
-Plug 'lervag/vimtex'
 call plug#end()
 
 colorscheme onedark
-set textwidth=100
+set textwidth=99
 
 filetype plugin indent on
 syntax on
