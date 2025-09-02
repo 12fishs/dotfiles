@@ -25,7 +25,7 @@ Plug 'lervag/vimtex'
 call plug#end()
 
 colorscheme onedark
-set textwidth=99
+set textwidth=100
 
 filetype plugin indent on
 syntax on
@@ -62,8 +62,8 @@ set viminfo='25,\"50,n~/.viminfo
 autocmd FileType html setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType css setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2
-
 autocmd FileType tex setlocal tabstop=2 shiftwidth=2 softtabstop=2
+"
 " word movement
 imap <S-Left> <Esc>bi
 nmap <S-Left> b
