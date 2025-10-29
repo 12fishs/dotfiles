@@ -26,3 +26,9 @@
 ;; Ask
 (autoload 'ask-mode "~/git/ask/emacs/ask.el" nil t)
 (add-to-list 'auto-mode-alist '("\\.ask\\'" . ask-mode))
+(with-eval-after-load 'ask-mode
+    (set-face-attribute 'ask-secondary-keyword nil 
+        :inherit 'font-lock-keyword-face
+        :foreground nil
+        :background nil
+        :weight 'normal))
