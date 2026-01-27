@@ -32,3 +32,23 @@
         :foreground nil
         :background nil
         :weight 'normal))
+
+;; Agda 
+(load-file (let ((coding-system-for-read 'utf-8))
+                (shell-command-to-string "agda --emacs-mode locate")))
+
+;; (define-key evil-normal-state-map [mouse-2] 'agda2-goto-definition-mouse)
+(add-hook 'agda2-mode-hook
+          (lambda ()
+            (when (bound-and-true-p evil-local-mode)
+              (evil-local-mode -1))
+            (setq-local evil-normal-state-map (make-sparse-keymap))
+            (setq-local evil-insert-state-map (make-sparse-keymap))
+            (setq-local evil-visual-state-map (make-sparse-keymap))
+            (setq-local evil-motion-state-map (make-sparse-keymap))
+            (mapc #'disable-theme custom-enabled-themes)
+            (if (fboundp 'buffer-face-set)
+                (buffer-face-set '(:family "JuliaMono"))
+              ;; fallback if buffer-face isn't present
+                (face-remap-add-relative 'default :family "JuliaMono"))))
+
