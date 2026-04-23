@@ -20,8 +20,9 @@
 
 (require 'evil) 
 (evil-mode 1) 
-(with-eval-after-load 'agda2-mode
-  (evil-set-initial-state 'agda2-mode 'emacs))
+;; set normal mode for agda
+;;(with-eval-after-load 'agda2-mode
+;;  (evil-set-initial-state 'agda2-mode 'emacs))
 
 (load-theme 'atom-one-dark t) 
 
@@ -40,8 +41,10 @@
 (add-hook 'agda2-mode-hook (lambda () 
                              (evil-emacs-state)
                              (with-eval-after-load 'agda2-mode
-                                                   (define-key agda2-mode-map (kbd "C-c C-g") 'agda2-give))
-                             (mapc #'disable-theme custom-enabled-themes) 
+                                                   (define-key agda2-mode-map (kbd "C-c C-g") 'agda2-give)
+                                                   (define-key evil-normal-state-map [mouse-2] 'agda2-goto-definition-mouse))
+                             ;; disable theme for agda
+;;                             (mapc #'disable-theme custom-enabled-themes) 
                              (if (fboundp 'buffer-face-set) 
                                (buffer-face-set '(:family "JuliaMono")) 
                              ;; fallback if buffer-face isn't present 
@@ -50,3 +53,4 @@
 ;; Agda 
 (load-file (let ((coding-system-for-read 'utf-8)) 
              (shell-command-to-string "agda --emacs-mode locate")))
+
