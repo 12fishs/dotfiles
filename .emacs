@@ -20,6 +20,7 @@
 
 (require 'evil) 
 (evil-mode 1) 
+(evil-set-undo-system 'undo-redo)
 ;; set normal mode for agda
 ;;(with-eval-after-load 'agda2-mode
 ;;  (evil-set-initial-state 'agda2-mode 'emacs))
