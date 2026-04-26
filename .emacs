@@ -42,7 +42,7 @@
                                           :background nil 
                                           :weight 'normal)) 
 
-;; (define-key evil-normal-state-map [mouse-2] 'agda2-goto-definition-mouse) 
+(define-key evil-normal-state-map [mouse-2] 'agda2-goto-definition-mouse) 
 (add-hook 'agda2-mode-hook (lambda () 
                              (evil-emacs-state)
                              (with-eval-after-load 'agda2-mode
