@@ -25,6 +25,7 @@
 ;;(with-eval-after-load 'agda2-mode
 ;;  (evil-set-initial-state 'agda2-mode 'emacs))
 
+(setq display-fill-column-indicator-character ?▌)
 (setq-default fill-column 100)
 (global-display-fill-column-indicator-mode 1)
 
