@@ -53,7 +53,8 @@
                              (if (fboundp 'buffer-face-set) 
                                (buffer-face-set '(:family "JuliaMono")) 
                              ;; fallback if buffer-face isn't present 
-                             (face-remap-add-relative 'default :family "JuliaMono")))) 
+                             (face-remap-add-relative 'default :family "JuliaMono")))
+                             (global-set-key (kbd "C-c d") 'describe-char))
 
 ;; Agda 
 (load-file (let ((coding-system-for-read 'utf-8)) 
