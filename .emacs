@@ -25,7 +25,7 @@
 ;;(with-eval-after-load 'agda2-mode
 ;;  (evil-set-initial-state 'agda2-mode 'emacs))
 
-(setq display-fill-column-indicator-character ?▌)
+;;(setq display-fill-column-indicator-character ?▌)
 (setq-default fill-column 100)
 (global-display-fill-column-indicator-mode 1)
 
@@ -42,6 +42,7 @@
                                           :background nil 
                                           :weight 'normal)) 
 
+(evil-define-key 'normal agda2-mode-map (kbd "M-.") 'agda2-goto-definition-keyboard)
 (define-key evil-normal-state-map [mouse-2] 'agda2-goto-definition-mouse) 
 (add-hook 'agda2-mode-hook (lambda () 
                              (evil-emacs-state)
