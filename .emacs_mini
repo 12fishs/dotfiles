@@ -1,0 +1,98 @@
+(require 'package) 
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t) 
+;; Comment/uncomment this line to enable MELPA Stable if desired. See package-archive-priorities 
+;; and package-pinned-packages. Most users will not need or want to do this. 
+;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t) 
+(package-initialize) 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(inhibit-startup-screen t)
+ '(package-selected-packages '(atom-one-dark-theme evil gruvbox-theme)))
+ 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+ 
+(defun set-iterm-tab-title (title)
+  (send-string-to-terminal (format "\033]1;%s\007" title)))
+
+(add-hook 'buffer-list-update-hook
+  (lambda ()
+    (set-iterm-tab-title (buffer-name))))
+
+(add-hook 'kill-emacs-hook
+  (lambda ()
+    (set-iterm-tab-title "")))
+
+(require 'evil) 
+(evil-mode 1) 
+(evil-set-undo-system 'undo-redo)
+;; set normal mode for agda
+;;(with-eval-after-load 'agda2-mode
+;;  (evil-set-initial-state 'agda2-mode 'emacs))
+
+;;(setq display-fill-column-indicator-character ?▌)
+(setq-default fill-column 100)
+(global-display-fill-column-indicator-mode 1)
+(global-display-line-numbers-mode t)
+
+(load-theme 'gruvbox t) 
+
+
+;; Ask 
+(autoload 'ask-mode "~/git/ask/emacs/ask.el" nil t) 
+(add-to-list 'auto-mode-alist '("\\.ask\\'" . ask-mode)) 
+(with-eval-after-load 'ask-mode 
+                      (set-face-attribute 'ask-secondary-keyword nil 
+                                          :inherit 'font-lock-keyword-face 
+                                          :foreground nil 
+                                          :background nil 
+                                          :weight 'normal)) 
+
+(evil-define-key 'normal agda2-mode-map (kbd "M-.") 'agda2-goto-definition-keyboard)
+(define-key evil-normal-state-map [mouse-2] 'agda2-goto-definition-mouse) 
+(add-hook 'agda2-mode-hook (lambda () 
+                             (evil-emacs-state)
+                             (with-eval-after-load 'agda2-mode
+                                                   (define-key agda2-mode-map (kbd "C-c C-g") 'agda2-give)
+                                                   (define-key evil-normal-state-map [mouse-2] 'agda2-goto-definition-mouse))
+                             ;; disable theme for agda
+;;                             (mapc #'disable-theme custom-enabled-themes) 
+                             (if (fboundp 'buffer-face-set) 
+                               (buffer-face-set '(:family "JuliaMono")) 
+                             ;; fallback if buffer-face isn't present 
+                             (face-remap-add-relative 'default :family "JuliaMono")))) 
+
+;; Agda 
+(load-file (let ((coding-system-for-read 'utf-8)) 
+             (shell-command-to-string "agda --emacs-mode locate")))
+(defun setup-agda-kill-hook ()
+  (add-hook 'kill-buffer-hook 'close-agda-info-on-quit nil t))
+
+(defun close-agda-info-on-quit ()
+  (interactive)
+  (when (get-buffer "*Agda information*")
+    (let ((kill-buffer-query-functions nil))
+      (kill-buffer "*Agda information*"))))
+(add-hook 'agda2-mode-hook 'setup-agda-kill-hook)
+(advice-add 'evil-quit :around
+  (lambda (orig-fn &rest args)
+    (when (get-buffer "*Agda information*")
+      (let ((kill-buffer-query-functions nil))
+        (delete-windows-on "*Agda information*")
+        (kill-buffer "*Agda information*")))
+    (apply orig-fn args)))
+
+(add-hook 'agda2-mode-hook
+          (lambda ()
+            (agda2-load)))
+
+(advice-add 'agda2-load :before
+            (lambda (&rest args)
+              (evil-normal-state)))
