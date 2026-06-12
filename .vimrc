@@ -196,3 +196,7 @@ endfunction
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 set mouse=a
+
+" agda-vim
+autocmd Filetype agda inoremap <buffer> <Bslash>dag †
+autocmd BufWinEnter *.agda execute 'AgdaReload'
