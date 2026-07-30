@@ -12,6 +12,10 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages '(atom-one-dark-theme evil gruvbox-theme)))
  
+(setq scroll-conservatively 101
+      scroll-step 1
+      scrol-margin 10)
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -19,16 +23,17 @@
  ;; If there is more than one, they won't work right.
  )
  
-(defun set-iterm-tab-title (title)
-  (send-string-to-terminal (format "\033]1;%s\007" title)))
-
-(add-hook 'buffer-list-update-hook
-  (lambda ()
-    (set-iterm-tab-title (buffer-name))))
-
-(add-hook 'kill-emacs-hook
-  (lambda ()
-    (set-iterm-tab-title "")))
+;; iterm title problems
+;;(defun set-iterm-tab-title (title)
+;;  (send-string-to-terminal (format "\033]1;%s\007" title)))
+;;
+;;(add-hook 'buffer-list-update-hook
+;;  (lambda ()
+;;    (set-iterm-tab-title (buffer-name))))
+;;
+;;(add-hook 'kill-emacs-hook
+;;  (lambda ()
+;;    (set-iterm-tab-title "")))
 
 (require 'evil) 
 (evil-mode 1) 
@@ -56,7 +61,11 @@
                                           :weight 'normal)) 
 
 (evil-define-key 'normal agda2-mode-map (kbd "M-.") 'agda2-goto-definition-keyboard)
+(evil-define-key 'normal agda2-mode-map (kbd "C-c .") 'agda2-goto-definition-keyboard)
+(evil-define-key 'normal agda2-mode-map (kbd "C-c ,") 'agda2-go-back)
+
 (define-key evil-normal-state-map [mouse-2] 'agda2-goto-definition-mouse) 
+
 (add-hook 'agda2-mode-hook (lambda () 
                              (evil-emacs-state)
                              (with-eval-after-load 'agda2-mode
@@ -81,6 +90,7 @@
     (let ((kill-buffer-query-functions nil))
       (kill-buffer "*Agda information*"))))
 (add-hook 'agda2-mode-hook 'setup-agda-kill-hook)
+
 (advice-add 'evil-quit :around
   (lambda (orig-fn &rest args)
     (when (get-buffer "*Agda information*")
@@ -96,3 +106,8 @@
 (advice-add 'agda2-load :before
             (lambda (&rest args)
               (evil-normal-state)))
+
+(advice-add 'agda2-give :before
+            (lambda (&rest args)
+              (evil-normal-state)))
+
